@@ -10,13 +10,12 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.Year;
 
-
 /**
  *
  * @author aluno.saolucas
  */
 public class principal extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form principal
      */
@@ -24,7 +23,7 @@ public class principal extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-         
+
     }
 
     /**
@@ -133,9 +132,10 @@ public class principal extends javax.swing.JFrame {
         lbResp.setEditable(false);
         lbResp.setBackground(new java.awt.Color(51, 51, 51));
         lbResp.setColumns(20);
-        lbResp.setForeground(new java.awt.Color(0, 0, 0));
+        lbResp.setForeground(new java.awt.Color(250, 188, 60));
         lbResp.setLineWrap(true);
         lbResp.setRows(5);
+        lbResp.setText(" Resultado:");
         lbResp.setToolTipText("");
         lbResp.setWrapStyleWord(true);
         lbResp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(250, 188, 60), 2, true));
@@ -145,9 +145,10 @@ public class principal extends javax.swing.JFrame {
         lbFrase.setEditable(false);
         lbFrase.setBackground(new java.awt.Color(51, 51, 51));
         lbFrase.setColumns(20);
-        lbFrase.setForeground(new java.awt.Color(0, 0, 0));
+        lbFrase.setForeground(new java.awt.Color(250, 188, 60));
         lbFrase.setLineWrap(true);
         lbFrase.setRows(5);
+        lbFrase.setText(" Previsão:");
         lbFrase.setWrapStyleWord(true);
         lbFrase.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(250, 188, 60), 2, true));
         lbFrase.setMargin(new java.awt.Insets(0, 3, 0, 3));
@@ -282,51 +283,69 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_edDiaActionPerformed
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        lbResp.setBackground(Color.WHITE);
-        lbFrase.setBackground(Color.WHITE);
-        String nome, tratamento, nascidoa;
-        int dia, mes, ano;
-
-        nome = edNome.getText();
-        if (nome.length() >= 8) {
+        boolean marcado;
+        if (rbMasc.isSelected() || rbFem.isSelected()) {
+            marcado = true;
         } else {
-            nome = "Legal se o seu nome fosse verdadeiro.";
-        }
-        dia = Integer.parseInt(edDia.getText());
-        mes = Integer.parseInt(edMes.getText());
-        ano = Integer.parseInt(edAno.getText());
-        if (rbMasc.isSelected()) {
-            tratamento = "Sr";
-            nascidoa = "nascido";
-        } else {
-            tratamento = "Sra.";
-            nascidoa = "nascida";
+            marcado = false;
         }
 
-        int anoAtual = Year.now().getValue();
-        if (dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12 && ano >= 1900 && ano <= anoAtual) {
+        if (edNome.getText().equals("") || edDia.getText().equals("")
+                || edMes.getText().equals("") || edAno.getText().equals("") || marcado == false) {
+        } else{
+            lbResp.setBackground(Color.WHITE);
+            lbFrase.setBackground(Color.WHITE);
+            lbResp.setForeground(Color.BLACK);
+            lbFrase.setForeground(Color.BLACK);
+            String nome, tratamento, nascidoa;
+            int dia, mes, ano;
+
+            nome = edNome.getText();
+            if (nome.length() >= 8) {
+            } else {
+                nome = "Legal se o seu nome fosse verdadeiro.";
+            }
+            dia = Integer.parseInt(edDia.getText());
+            mes = Integer.parseInt(edMes.getText());
+            ano = Integer.parseInt(edAno.getText());
+            if (rbMasc.isSelected()) {
+                tratamento = "Sr";
+                nascidoa = "nascido";
+            } else {
+                tratamento = "Sra.";
+                nascidoa = "nascida";
+            }
             int idade = calcularIdade(dia, mes, ano);
-            lbResp.setText("Boa tarde," + tratamento + " " + nome + ", " + nascidoa + " no dia " + dia + "-" + mes + "-" + ano
-                    + " é do signo de " + gerarSigno(dia, mes) + "- Você tem " + idade + " anos - seu número da sorte é " + sortearNum() + " e sua cor: " + sortearCor());
-            lbFrase.setText(sortearFrase());
-        } else {
-            lbResp.setText("Insira um dia entre 1 e 31, um mês entre 1 e 12, e um ano entre 1900 e " + anoAtual);
-        }
+            int anoAtual = Year.now().getValue();
+            if (dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12 && ano >= 1900 && ano <= anoAtual && idade > 0) {
+                
+                lbResp.setText("Boa tarde," + tratamento + " " + nome + ", " + nascidoa + " no dia " + dia + "-" + mes + "-" + ano
+                        + " é do signo de " + gerarSigno(dia, mes) + "- Você tem " + idade + " anos - seu número da sorte é " + sortearNum() + " e sua cor: " + sortearCor());
+                lbFrase.setText(sortearFrase());
+            } else {
+                lbResp.setText("Insira um dia entre 1 e 31, um mês entre 1 e 12, e um ano entre 1900 e " + anoAtual);
+                lbFrase.setText(null);
+            }
 
     }//GEN-LAST:event_btConsultarActionPerformed
-
+    }
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
-        
+        int red = 250;
+        int blue = 60;
+        int green = 188;
+        float[] converter = Color.RGBtoHSB(red, green, blue, null);
         edNome.setText(null);
         edAno.setText(null);
         edMes.setText(null);
         edDia.setText(null);
         buttonGroup1.clearSelection();
-        lbResp.setText(null);
-        lbFrase.setText(null);
+        lbResp.setText(" Resultado:");
+        lbResp.setForeground(Color.getHSBColor(converter[0], converter[1], converter[2]));
+        lbFrase.setForeground(Color.getHSBColor(converter[0], converter[1], converter[2]));
+        lbFrase.setText(" Previsão:");
         lbResp.setBackground(Color.DARK_GRAY);
         lbFrase.setBackground(Color.DARK_GRAY);
-        
+
     }//GEN-LAST:event_btLimparActionPerformed
     public static String sortearFrase() {
         int sortear = (int) (Math.random() * 10) + 1;
@@ -402,14 +421,19 @@ public class principal extends javax.swing.JFrame {
     }
 
     public static int calcularIdade(int dia, int mes, int ano) {
-
+        int respCalcIdade;
+        if(dia > 29 && mes == 2 || dia > 30 && (mes == 4 || mes == 6 || mes == 9|| mes == 11)){
+        respCalcIdade = 0;
+        }else{
+        
         LocalDate hoje = LocalDate.now();
         LocalDate dataNascimento = LocalDate.of(ano, mes, dia);
         Period periodo = Period.between(dataNascimento, hoje);
         int idade = periodo.getYears();
-        return idade;
+        respCalcIdade = idade;
+        }
+        return respCalcIdade;
     }
-
     public String gerarSigno(int dia, int mes) {
         String signo = "";
         if (dia >= 21 && dia <= 31 && mes == 3
