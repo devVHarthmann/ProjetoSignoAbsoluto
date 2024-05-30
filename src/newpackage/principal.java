@@ -292,7 +292,7 @@ public class principal extends javax.swing.JFrame {
 
         if (edNome.getText().equals("") || edDia.getText().equals("")
                 || edMes.getText().equals("") || edAno.getText().equals("") || marcado == false) {
-        } else{
+        } else {
             lbResp.setBackground(Color.WHITE);
             lbFrase.setBackground(Color.WHITE);
             lbResp.setForeground(Color.BLACK);
@@ -318,10 +318,12 @@ public class principal extends javax.swing.JFrame {
             int idade = calcularIdade(dia, mes, ano);
             int anoAtual = Year.now().getValue();
             if (dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12 && ano >= 1900 && ano <= anoAtual && idade > 0) {
-                
-                lbResp.setText("Boa tarde," + tratamento + " " + nome + ", " + nascidoa + " no dia " + dia + "-" + mes + "-" + ano
-                        + " é do signo de " + gerarSigno(dia, mes) + "- Você tem " + idade + " anos - seu número da sorte é " + sortearNum() + " e sua cor: " + sortearCor());
-                lbFrase.setText(sortearFrase());
+                for (int i = 0; i < 1; i++) {
+                    lbResp.setText("Boa tarde," + tratamento + " " + nome + ", " + nascidoa + " no dia " + dia + "-" + mes + "-" + ano
+                            + " é do signo de " + gerarSigno(dia, mes) + "- Você tem " + idade + " anos - seu número da sorte é " + sortearNum()
+                            + " e sua cor: " + sortearCor());
+                    lbFrase.setText(sortearFrase());
+                }
             } else {
                 lbResp.setText("Insira um dia entre 1 e 31, um mês entre 1 e 12, e um ano entre 1900 e " + anoAtual);
                 lbFrase.setText(null);
@@ -334,18 +336,19 @@ public class principal extends javax.swing.JFrame {
         int blue = 60;
         int green = 188;
         float[] converter = Color.RGBtoHSB(red, green, blue, null);
-        edNome.setText(null);
-        edAno.setText(null);
-        edMes.setText(null);
-        edDia.setText(null);
-        buttonGroup1.clearSelection();
-        lbResp.setText(" Resultado:");
-        lbResp.setForeground(Color.getHSBColor(converter[0], converter[1], converter[2]));
-        lbFrase.setForeground(Color.getHSBColor(converter[0], converter[1], converter[2]));
-        lbFrase.setText(" Previsão:");
-        lbResp.setBackground(Color.DARK_GRAY);
-        lbFrase.setBackground(Color.DARK_GRAY);
-
+        for (int i = 1; i < 2; i++) {
+            edNome.setText(null);
+            edAno.setText(null);
+            edMes.setText(null);
+            edDia.setText(null);
+            buttonGroup1.clearSelection();
+            lbResp.setText(" Resultado:");
+            lbResp.setForeground(Color.getHSBColor(converter[0], converter[1], converter[2]));
+            lbFrase.setForeground(Color.getHSBColor(converter[0], converter[1], converter[2]));
+            lbFrase.setText(" Previsão:");
+            lbResp.setBackground(Color.DARK_GRAY);
+            lbFrase.setBackground(Color.DARK_GRAY);
+        }
     }//GEN-LAST:event_btLimparActionPerformed
     public static String sortearFrase() {
         int sortear = (int) (Math.random() * 10) + 1;
@@ -422,18 +425,19 @@ public class principal extends javax.swing.JFrame {
 
     public static int calcularIdade(int dia, int mes, int ano) {
         int respCalcIdade;
-        if(dia > 29 && mes == 2 || dia > 30 && (mes == 4 || mes == 6 || mes == 9|| mes == 11)){
-        respCalcIdade = 0;
-        }else{
-        
-        LocalDate hoje = LocalDate.now();
-        LocalDate dataNascimento = LocalDate.of(ano, mes, dia);
-        Period periodo = Period.between(dataNascimento, hoje);
-        int idade = periodo.getYears();
-        respCalcIdade = idade;
+        if (dia > 29 && mes == 2 || dia > 30 && (mes == 4 || mes == 6 || mes == 9 || mes == 11)) {
+            respCalcIdade = 0;
+        } else {
+
+            LocalDate hoje = LocalDate.now();
+            LocalDate dataNascimento = LocalDate.of(ano, mes, dia);
+            Period periodo = Period.between(dataNascimento, hoje);
+            int idade = periodo.getYears();
+            respCalcIdade = idade;
         }
         return respCalcIdade;
     }
+
     public String gerarSigno(int dia, int mes) {
         String signo = "";
         if (dia >= 21 && dia <= 31 && mes == 3
